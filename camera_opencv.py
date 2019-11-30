@@ -6,12 +6,10 @@ from base_camera import BaseCamera
 #前処理関数
 def preprocessing(img):
     # 前処理が必要な場合はここに追記
-
-    #リサイズ
-    img = cv2.resize(img, (480,360))
+    img = cv2.resize(img, (480,360)) #リサイズ
+    img = cv2.flip(img, 1)#左右反転
 
     return img
-
 
 class Camera(BaseCamera):
     video_source = 0
