@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 from importlib import import_module
 import os
-from flask import Flask, render_template, Response, redirect
+from random import randint
+from datetime import datetime
+from flask import Flask, render_template, Response, redirect,send_from_directory
 import cv2
 import numpy as np
 # import camera driver
@@ -14,7 +16,7 @@ else:
 # from camera_pi import Camera
 
 app = Flask(__name__)
-
+SAVE_DIR='uploads'
 
 @app.route('/')
 def index():
@@ -44,10 +46,14 @@ def send():
     nparr = np.frombuffer(frame, np.uint8)
     img = cv2.imdecode(nparr,cv2.IMREAD_COLOR)
 
-    cv2.imwrite("test.jpg",img)
-    
-    return redirect('/')
+    dt_now = datetime.now().strftime("%Y_%m_%d%_H_%M_%S_") + str(randint(0,10))
+    save_path = os.path.join(SAVE_DIR, dt_now + ".jpg")
+    cv2.imwrite(save_path,img)
+    return render_template('index.html',img_url=save_path)
 
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(SAVE_DIR, filename)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True)

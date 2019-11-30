@@ -25,7 +25,11 @@
       
       <div class="col-sm">
         <div class="card" style="width: 30rem; height: 22.5rem;">
+          {% if img_url %}
+            <img src="{{ img_url }}">
+          {% else %}
             <img src="../static/image/noimage.png">
+          {% endif %}
           <div class="card-body">
             <button type="button" class="btn btn-outline-primary">HAIT</button>   
             <button type="button" class="btn btn-outline-primary">LUCID</button>         
