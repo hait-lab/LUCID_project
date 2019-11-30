@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from importlib import import_module
 import os
 from random import randint
@@ -6,14 +5,11 @@ from datetime import datetime
 from flask import Flask, render_template, Response, redirect,send_from_directory
 import cv2
 import numpy as np
-# import camera driver
+
 if os.environ.get('CAMERA'):
     Camera = import_module('camera_' + os.environ['CAMERA']).Camera
 else:
     from camera_opencv import Camera
-
-# Raspberry Pi camera module (requires picamera package)
-# from camera_pi import Camera
 
 app = Flask(__name__)
 SAVE_DIR='uploads'
@@ -37,7 +33,7 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-@app.route('/send',methods=['GET', 'POST'])
+@app.route('/send')
 def send():
     def gen2(camera):
         return camera.get_frame()
