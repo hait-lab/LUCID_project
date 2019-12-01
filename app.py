@@ -16,7 +16,7 @@ SAVE_DIR='uploads'
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html',img_url='static/test.jpg')
 
 
 def gen(camera):
@@ -68,21 +68,15 @@ def tempmath(img_path,temp_path,threshold = 0.5):
 
     cv2.imwrite(img_path[:-4]+temp_path[7:],result)
     return img_path[:-4]+temp_path[7:]
-@app.route('/STANDARD',methods=['GET', 'POST'])
+@app.route('/STANDARD')
 def standard():
-    if request.method == 'POST':
-        res = request.form['get_value']  
-        standard_path = tempmath(res,'static/standard.png')
+    standard_path = 'static/StandardImage_Small.png'
+    return render_template('index.html',standard_url=standard_path)
 
-    return render_template('index.html',original_url=res,standard_url=standard_path)
-
-@app.route('/LUCID',methods=['GET', 'POST'])
+@app.route('/LUCID')
 def lucid():
-    if request.method == 'POST':
-        res2 = request.form['get_value']  
-        lucid_path = tempmath(res2,'static/lucid.png')
-
-    return render_template('index.html',original_url=res2,lucid_url=lucid_path)
+    lucid_path = 'static/LucidImage_Small.png'
+    return render_template('index.html',lucid_url=lucid_path)
 
 
 if __name__ == '__main__':

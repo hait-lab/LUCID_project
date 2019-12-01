@@ -14,65 +14,46 @@
   <body>
     <div class="container">
       
-      <div class="card" style="width: 90rem; height: 60rem;">
-        {% if img_url %}
+      <div class="card" style="width: 66rem; height: 45rem;">          
+        {% if standard_url %}
           <div class="row">
-            <img src="{{ img_url }}">
+            <a href="static/Standard.png"><img src="{{ standard_url }}"></a>
           </div>
           <div class="row">
             <div class="card-body">
               <div class="btn-toolbar"><div class="btn-group"> 
-                <form action="/STANDARD" method="post">
-                  <button name="get_value" class="btn btn-outline-primary" value="{{ img_url }}">STANDARD</button>
-                </form>
-                <form action="/LUCID" method="post">
-                  <button name="get_value" class="btn btn-outline-info" value="{{ img_url }}">LUCID</button>
-                </form>
-                <a href="/"><button type="button" class="btn btn-outline-primary">撮影モードに戻る</button></a>
+                <a href="/STANDARD"><button type="button" class="btn btn-primary" disabled>STANDARD</button></a>
+                <a href="/LUCID"><button ype="button" class="btn btn-outline-success">LUCID</button></a>
+                <a href="/"><button type="button" class="btn btn-outline-primary">TOPに戻る</button></a>
               </div></div>
             </div>
           </div>
-        {% elif standard_url %}
-          <div class="row">
-            <img src="{{ standard_url }}">
-          </div>
-          <div class="row">
-            <div class="card-body">
-              <div class="btn-toolbar"><div class="btn-group"> 
-                <button name="get_value" class="btn btn-primary" disabled>STANDARD</button>
-                <form action="/LUCID" method="post">
-                  <button name="get_value" class="btn btn-outline-info" value="{{ original_url }}">LUCID</button>
-                </form>
-                <a href="/"><button type="button" class="btn btn-outline-primary">撮影モードに戻る</button></a>
-              </div></div>
-            </div>
-          </div>
-        
           {% elif lucid_url %}
             <div class="row">
-              <img src="{{ lucid_url }}">
+              <a href="static/Lucid.png"><img src="{{ lucid_url }}"></a>
             </div>
             <div class="row">
               <div class="card-body">
                 <div class="btn-toolbar"><div class="btn-group">
-                  <form action="/STANDARD" method="post">
-                    <button name="get_value" class="btn btn-outline-primary"　value="{{ original_url }}">STANDARD</button>
-                  </form>
-                  <button name="get_value" class="btn btn-info"　disabled>LUCID</button>
-                  <a href="/"><button type="button" class="btn btn-outline-primary">撮影モードに戻る</button></a>
+                    <a href="/STANDARD"><button type="button" class="btn btn-outline-primary"　value="{{ original_url }}">STANDARD</button></a>
+                    <a href="LUCID"><button type="button" class="btn btn-success"　disabled>LUCID</button></a>
+                    <a href="/"><button type="button" class="btn btn-outline-primary">TOPに戻る</button></a>
                 </div></div>
               </div>
             </div>
 
-        {% else %}
+          {% elif img_url %}
           <div class="row">
-            <img src="{{ url_for('video_feed') }}">
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <a href="/send"><button type="button" class="btn btn-outline-primary">撮影</button></a>
+              <a href="/static/TOP.jpg"><img src="{{ img_url }}"></a>
             </div>
-          </div>
+            <div class="row">
+              <div class="card-body">
+                <div class="btn-toolbar"><div class="btn-group"> 
+                    <a href="/STANDARD"><button type="button" class="btn btn-outline-primary">STANDARD</button></a>
+                    <a href="/LUCID"><button type="button" class="btn btn-outline-success">LUCID</button></a>
+                </div></div>
+              </div>
+            </div>
         {% endif %}
       </div>
     </div>
