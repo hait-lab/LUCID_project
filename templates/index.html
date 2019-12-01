@@ -47,6 +47,23 @@
               </div></div>
             </div>
           </div>
+        
+          {% elif lucid_url %}
+            <div class="row">
+              <img src="{{ lucid_url }}">
+            </div>
+            <div class="row">
+              <div class="card-body">
+                <div class="btn-toolbar"><div class="btn-group">
+                  <form action="/STANDARD" method="post">
+                    <button name="get_value" class="btn btn-outline-primary"　value="{{ original_url }}">STANDARD</button>
+                  </form>
+                  <button name="get_value" class="btn btn-info"　disabled>LUCID</button>
+                  <a href="/"><button type="button" class="btn btn-outline-primary">撮影モードに戻る</button></a>
+                </div></div>
+              </div>
+            </div>
+
         {% else %}
           <div class="row">
             <img src="{{ url_for('video_feed') }}">

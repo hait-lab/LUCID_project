@@ -79,9 +79,11 @@ def standard():
 @app.route('/LUCID',methods=['GET', 'POST'])
 def lucid():
     if request.method == 'POST':
-        res = request.form['get_value']  
+        res2 = request.form['get_value']  
+        lucid_path = tempmath(res2,'static/lucid.png')
 
-    return redirect('/send')
+    return render_template('index.html',original_url=res2,lucid_url=lucid_path)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True)
