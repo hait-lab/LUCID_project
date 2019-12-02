@@ -16,7 +16,7 @@ SAVE_DIR='uploads'
 
 @app.route('/')
 def index():
-    return render_template('index.html',img_url='static/test.jpg')
+    return render_template('index.html',original_url='static/TOP.jpg',img_url='static/test.jpg')
 
 
 def gen(camera):
@@ -65,18 +65,31 @@ def tempmath(img_path,temp_path,threshold = 0.5):
     for top_left in zip(*loc[::-1]):
         bottom_right = (top_left[0] + w-bias, top_left[1] + h-bias)
         cv2.rectangle(result,(top_left[0]+bias,top_left[1]+bias), bottom_right, (0, 0, 255), 5)
-
+    
+    resize_img = cv2.resize(result,(1080,720))
     cv2.imwrite(img_path[:-4]+temp_path[7:],result)
-    return img_path[:-4]+temp_path[7:]
-@app.route('/STANDARD')
-def standard():
-    standard_path = 'static/StandardImage_Small.png'
-    return render_template('index.html',standard_url=standard_path)
+    cv2.imwrite(img_path[:-4]+'resize_'+temp_path[7:],resize_img)
 
-@app.route('/LUCID')
+    return img_path[:-4]+temp_path[7:],img_path[:-4]+'resize_'+temp_path[7:]
+@app.route('/STANDARD',methods=['GET', 'POST'])
+def standard():
+    if request.method == 'POST':
+        res = request.form['get_value']  
+        print(res)
+        standard_path,resize_standard_path = tempmath(res,'static/temp_s.png')
+
+    return render_template('index.html',original_url='static/TOP.jpg',
+                            standard_url=resize_standard_path,original_standard_url=standard_path)
+
+@app.route('/LUCID',methods=['GET', 'POST'])
 def lucid():
-    lucid_path = 'static/LucidImage_Small.png'
-    return render_template('index.html',lucid_url=lucid_path)
+    if request.method == 'POST':
+        res = request.form['get_value']  
+        lucid_path,resize_lucid_path = tempmath(res,'static/temp_l.png')
+
+    return render_template('index.html',original_url='static/TOP.jpg',
+                            lucid_url=resize_lucid_path,original_lucid_url=lucid_path,)
+
 
 
 if __name__ == '__main__':
