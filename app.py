@@ -67,16 +67,20 @@ def tempmath(img_path,temp_path,threshold = 0.5):
         cv2.rectangle(result,(top_left[0]+bias,top_left[1]+bias), bottom_right, (0, 0, 255), 5)
     
     resize_img = cv2.resize(result,(1080,720))
-    cv2.imwrite(img_path[:-4]+temp_path[7:],result)
-    cv2.imwrite(img_path[:-4]+'resize_'+temp_path[7:],resize_img)
+    dt_now = datetime.now().strftime("%Y_%m_%d%_H_%M_%S_") + str(randint(0,10))
+    save_path = os.path.join(SAVE_DIR, dt_now + ".png")
+    save_path2 = os.path.join(SAVE_DIR, dt_now + "_resize.png")
 
-    return img_path[:-4]+temp_path[7:],img_path[:-4]+'resize_'+temp_path[7:]
+    cv2.imwrite(save_path,result)
+    cv2.imwrite(save_path2,resize_img)
+
+    return save_path,save_path2
 @app.route('/STANDARD',methods=['GET', 'POST'])
 def standard():
     if request.method == 'POST':
         res = request.form['get_value']  
         print(res)
-        standard_path,resize_standard_path = tempmath(res,'static/temp_s.png')
+        standard_path,resize_standard_path = tempmath(res,'static/temp_s.png',threshold=0.3)
 
     return render_template('index.html',original_url='static/TOP.jpg',
                             standard_url=resize_standard_path,original_standard_url=standard_path)
@@ -85,7 +89,7 @@ def standard():
 def lucid():
     if request.method == 'POST':
         res = request.form['get_value']  
-        lucid_path,resize_lucid_path = tempmath(res,'static/temp_l.png')
+        lucid_path,resize_lucid_path = tempmath(res,'static/temp_l.png',threshold=0.7)
 
     return render_template('index.html',original_url='static/TOP.jpg',
                             lucid_url=resize_lucid_path,original_lucid_url=lucid_path,)
